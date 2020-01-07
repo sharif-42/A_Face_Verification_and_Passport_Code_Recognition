@@ -8,6 +8,7 @@ After that I verify the face against the passport code.
 ~~~~
 sudo apt update
 pip install opencv-python
+pip install Pillow==2.2.1
 sudo apt install tesseract-ocr
 sudo apt install libtesseract-dev
 ~~~~
@@ -33,14 +34,14 @@ config = ("-l eng --oem 1 --psm 7")
 - **-l** represent the language Parameter, That is in which language we want to work with. Default English,
          If you want to work with other labguage then please have a look **[Here]()**.
          
-- **-oem**  This set of traineddata files has support for the legacy recognizer with --oem 0 and 
+- **--oem**  This set of traineddata files has support for the legacy recognizer with --oem 0 and 
             for LSTM models with --oem 1. For More See 
             **[Here](https://github.com/tesseract-ocr/tesseract/wiki/Data-Files#data-files-for-version-400-november-29-2016)**
 
 - **--psm** Stands Page Segmentation Modes(psm). This is also another important parameter. To Know more take a look 
             **[Here](https://github.com/tesseract-ocr/tesseract/wiki/Command-Line-Usage)**.
             
-## Workflow or Get Info From Iamge
+## Workflow or Get Info From Image
  There is so many ways how you get information from image. Some Examples are,
  
 - No Configuration Just Extract the information as String.
