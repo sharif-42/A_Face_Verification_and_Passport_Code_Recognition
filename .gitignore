@@ -7,3 +7,4 @@ media
 venv
 .venv
 .ipynb_checkpoints
+rebiuld.sh

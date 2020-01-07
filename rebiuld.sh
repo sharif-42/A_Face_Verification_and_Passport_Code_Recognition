@@ -1,5 +1,5 @@
 pip3 freeze > requirements.txt
 git status
 git add .
-git commit -m "Readme Updated"
+git commit -m "gitignore Updated"
 git push
