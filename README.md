@@ -15,7 +15,54 @@ sudo apt install libtesseract-dev
 sometime we have to deal with local language. For this purpose tessaract provide the amazing faciclity.
 Download the traindata from here 
 **[Traindata](https://github.com/tesseract-ocr/tessdata/blob/master/script/Bengali.traineddata)**.
-**Note:** This is only for support Bengali Language. Here is all **[Traindata](https://github.com/tesseract-ocr/tessdata) 
+
+**Note:** This is only for support Bengali Language. Here is all **[Traindata](https://github.com/tesseract-ocr/tessdata)**.
+
+## Set Path For Traindata
+~~~~
+Step 1: Downlaod Data TrainData
+Step 2: Copy The Downloaded Traindata Path and Set is like the example.
+        sudo cp <downlaoded_traindata_path> /usr/share/tesseract-ocr/4.00/tessdata
+~~~~
+
+## Set Up Important Parameter To Get Best Result.
+#### Setup Config Parameter
+~~~~
+config = ("-l eng --oem 1 --psm 7")
+~~~~
+- **-l** represent the language Parameter, That is in which language we want to work with. Default English,
+         If you want to work with other labguage then please have a look **[Here]()**.
+         
+- **-oem**  This set of traineddata files has support for the legacy recognizer with --oem 0 and 
+            for LSTM models with --oem 1. For More See 
+            **[Here](https://github.com/tesseract-ocr/tesseract/wiki/Data-Files#data-files-for-version-400-november-29-2016)**
+
+- **--psm** Stands Page Segmentation Modes(psm). This is also another important parameter. To Know more take a look 
+            **[Here](https://github.com/tesseract-ocr/tesseract/wiki/Command-Line-Usage)**.
+            
+## Workflow or Get Info From Iamge
+ There is so many ways how you get information from image. Some Examples are,
+ 
+- No Configuration Just Extract the information as String.
+~~~~
+data = str(pytesseract.image_to_string(image))
+~~~~
+- Get Dictionary Data
+~~~~
+data = pytesseract.image_to_string(image, output_type='dict')
+~~~~
+- Get Specific Languages data
+~~~~
+# Deafault English
+config = ("-l ben --oem 1 --psm 7")
+data = pytesseract.image_to_string(image, output_type='dict')
+~~~~
+
+- Get Multiple Languages data
+~~~~
+config = ("-l ben+eng --oem 1 --psm 3")
+data = pytesseract.image_to_string(self.image, config=config, output_type='dict')
+~~~~
 
 ## Used Tools
 - **Python**.

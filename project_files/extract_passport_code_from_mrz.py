@@ -8,10 +8,10 @@ class OcrService:
         self.image = image
 
     def extract_passport_code(self):
-        # s = str(pytesseract.image_to_string(img))
         config = ("-l eng --oem 1 --psm 7")
-        #data = pytesseract.image_to_string(self.image, config=config, lang='Bengali', output_type='dict')
         data = pytesseract.image_to_string(self.image, output_type='dict')
+        # s = str(pytesseract.image_to_string(img))
+        #data = pytesseract.image_to_string(self.image, config=config, lang='Bengali', output_type='dict')
         return data
 
 if __name__=='__main__':
