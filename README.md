@@ -11,7 +11,14 @@ pip install opencv-python
 pip install Pillow==2.2.1
 sudo apt install tesseract-ocr
 sudo apt install libtesseract-dev
+pip3 install face_recognition
 ~~~~
+sometime Face Recognition Module May produce error when installing. The Try the following
+~~~~
+pip3 install CMake
+pip3 install face_recognition
+~~~~
+
 ## Download Traindata 
 sometime we have to deal with local language. For this purpose tessaract provide the amazing faciclity.
 Download the traindata from here 
