@@ -22,12 +22,12 @@ class MachineReadableZoneDetector:
         """
         Save the image to a specific location.
         """
-        cv2.imwrite('output/gray.jpg', gray)
+        cv2.imwrite('output_image_dataset/gray.jpg', gray)
 
 
 if __name__ == '__main__':
     service = MachineReadableZoneDetector()
-    image = cv2.imread('dataset/pass_port_1.jpg', 0)  # read gray-scale image
+    image = cv2.imread('passport_dataset/pass_port_1.jpg', 0)  # read gray-scale image
     image = imutils.resize(image, height=600)
     # initialize a rectangular and square structuring kernel
     rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (13, 5))
@@ -38,16 +38,16 @@ if __name__ == '__main__':
     find dark regions on a light background
     """
     gray = cv2.GaussianBlur(image, (3, 3), 0)
-    cv2.imwrite('output/gray.jpg', gray)
+    cv2.imwrite('output_image_dataset/gray.jpg', gray)
     blackhat = cv2.morphologyEx(gray, cv2.MORPH_BLACKHAT, rectKernel)
-    cv2.imwrite('output/blackhat.jpg', blackhat)
+    cv2.imwrite('output_image_dataset/blackhat.jpg', blackhat)
 
     """
     compute the Scharr gradient of the blackhat image and scale the result into the range [0, 255]  
     """
 
     gradX = cv2.Sobel(blackhat, ddepth=cv2.CV_32F, dx=1, dy=0, ksize=-1)
-    cv2.imwrite('output/gradX.jpg', gradX)
+    cv2.imwrite('output_image_dataset/gradX.jpg', gradX)
 
     gradX = np.absolute(gradX)
     (minVal, maxVal) = (np.min(gradX), np.max(gradX))
@@ -60,17 +60,17 @@ if __name__ == '__main__':
     apply Otsu's thresholding method
     """
     gradX = cv2.morphologyEx(gradX, cv2.MORPH_CLOSE, rectKernel)
-    cv2.imwrite('output/gradX_.jpg', gradX)
+    cv2.imwrite('output_image_dataset/gradX_.jpg', gradX)
     thresh = cv2.threshold(gradX, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
-    cv2.imwrite('output/thresh.jpg', thresh)
+    cv2.imwrite('output_image_dataset/thresh.jpg', thresh)
     """
     perform another closing operation, this time using the square kernel to close gaps between 
     lines of the MRZ, then perform a serieso of erosions to break apart connected components
     """
     morph = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, sqKernel)
-    cv2.imwrite('output/morph.jpg', morph)
+    cv2.imwrite('output_image_dataset/morph.jpg', morph)
     erode = cv2.erode(morph, None, iterations=4)
-    cv2.imwrite('output/erode.jpg', erode)
+    cv2.imwrite('output_image_dataset/erode.jpg', erode)
 
     """
     during thresholding, it's possible that border pixels were included in the thresholding, so let's set 5% of 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     p = int(image.shape[1] * 0.05)
     erode[:, 0:p] = 0
     erode[:, image.shape[1] - p:] = 0
-    cv2.imwrite('output/erode_.jpg', erode)
+    cv2.imwrite('output_image_dataset/erode_.jpg', erode)
 
     # find contours in the thresholded image and sort them by their size
     cnts = cv2.findContours(erode.copy(), cv2.RETR_EXTERNAL,
@@ -111,7 +111,7 @@ if __name__ == '__main__':
             cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
             break
 
-    cv2.imwrite('output/final_image.jpg', image)
-    cv2.imwrite('output/output.jpg', roi)
+    cv2.imwrite('output_image_dataset/final_image.jpg', image)
+    cv2.imwrite('output_image_dataset/output.jpg', roi)
     cv2.imshow('output', roi)
     cv2.waitKey(0)
